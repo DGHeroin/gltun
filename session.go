@@ -9,12 +9,15 @@ type Session interface {
 
 	Send([]byte) (error)
 	Close()
+
+	SetData(data interface{})
+	GetData() (interface{})
 }
 
 type session struct {
 	conn     net.Conn
 	buffer   []byte
-
+	data     interface{}
 	readBody bool
 	pkgType  int8
 	pkgSize  uint32
@@ -76,4 +79,11 @@ func (s *session) Close()  {
 		s.conn.Close()
 		s.conn = nil
 	}
+}
+
+func (s *session) SetData(u interface{}) {
+	s.data = u
+}
+func (s *session) GetData() (interface{}) {
+	return s.data
 }
